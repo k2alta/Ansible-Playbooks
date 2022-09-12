@@ -1,0 +1,29 @@
+- name: install git
+  hosts: git
+  
+
+  tasks:
+  - name: install prereq
+    ansible.builtin.yum:
+      name:
+        - curl
+        - policycoreutils-python
+        - openssh-server
+        - perl
+        - postfix
+   
+  - name: start postfix
+    ansible.builtin.service:
+        name: postfix
+        state: started
+  
+  - name: curl git
+    ansible.builtin.shell: curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+  
+  - name: install git
+    ansible.builtin.yum:
+       name: gitlab-ce
+       state: latest
+
+
+     

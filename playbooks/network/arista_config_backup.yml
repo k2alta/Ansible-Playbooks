@@ -1,0 +1,18 @@
+---
+- name: NAPALM get_facts and get_interfaces
+  hosts: [arista]
+  become: yes
+  become_method: enable
+  connection: network_cli
+  gather_facts: False
+  
+  tasks:
+  - name: config backup
+    eos_config:
+      backup: yes
+      backup_options:
+        dir_path: /etc/ansible/switchbackups/switch-backups
+      
+    
+   #- debug:
+        #var: napalm_facts

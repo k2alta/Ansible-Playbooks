@@ -1,0 +1,21 @@
+- hosts: vcenter
+  var:
+    vcenter_hostname: 'vcenter.ad.mtnlab.org'
+    vcenter_username: 'administrator@vcenter.local'
+    vcenter_username: 'Kerbero$88'
+     
+  tasks:
+  - name: Create a snapshot1
+    community.vmware.vmware_guest:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      folder: /ansibletest
+      name: ansibletest
+      state: poweredon
+      Template: AL-Template
+      validate_certs: no
+    delegate_to: localhost
+
+    
+

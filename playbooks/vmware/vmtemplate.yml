@@ -1,0 +1,17 @@
+- name: Create a VM from a template
+  hosts: vcenter
+  connection: local
+  gather_facts: no
+  tasks:
+  - name: Clone the template
+    community.vmware.vmware_guest:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      validate_certs: False
+      name: testEL9
+      template: AL_Template
+      datacenter: MTNLAB
+      folder: /"{{ datacenter_name }}"/testEL9
+      state: poweredon
+      wait_for_ip_address: yes

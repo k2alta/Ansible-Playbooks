@@ -1,0 +1,50 @@
+
+- hosts: hosts
+  tasks:
+  - name: install prereq
+    ansible.builtin.yum:
+      name:
+        - realmd
+        - sssd
+        - oddjob
+        - oddjob-mkhomedir
+        - adcli
+        - samba-common
+        - samba-common-tools
+        - epel-release
+   
+  - name: set timezone
+    ansible.builtin.shell: timedatectl set-timezone America/New_York
+
+##Needs to be a domain admin or a user with delicated controle to AD objects
+  - name: join domain
+    ignore_errors: yes
+    ansible.builtin.shell: echo 'mypassword' | realm join -U myusername mydomain.com
+         
+
+  - name: sssh config
+    ansible.builtin.copy:
+      src: /etc/ansible/files/sssd.conf
+      dest: /etc/sssd/
+      owner: root
+      mode: "0600"
+  
+  - name: restart sssd
+    ansible.builtin.service:
+       name: sssd
+       state: restarted
+
+  - name: edit sshd
+    ansible.builtin.shell: sed -i 's/GSSAPICleanupCredentials no/GSSAPICleanupCredentials yes/' /etc/ssh/sshd_config
+     
+  - name: restart sshd
+    ansible.builtin.service:
+       name: sshd
+       state: restarted
+ 
+##add AD group to Sudoers file 
+  - name: add sudoers
+    ansible.builtin.blockinfile:
+      path: /etc/sudoers
+      block: |
+        %linuxsudoers@domain.com    ALL=(ALL)  NOPASSWD: ALL

@@ -1,0 +1,16 @@
+---
+
+- hosts: pies
+  remote_user: pi
+  tasks:
+  - name: get uptime 
+    shell: df -h | grep root
+    register: storage
+
+  - debug:
+       var: storage.stdout_lines
+         
+    
+
+
+  

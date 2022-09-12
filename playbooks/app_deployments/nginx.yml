@@ -1,0 +1,17 @@
+---
+
+- name: configure webserver with html
+  host: 10.60.10.153
+  tasks:
+    - name: install nginx
+      dnf: name=nginx update_cache=yes
+      
+- name: copy files
+  copy: src= /opt/nginx.conf dest= /etc/nginx/sites-available/default
+
+- name: enable conf
+  file: >
+    dest=etc/nginx/sites-enabled/default src=etc/nginx/sites-available/default
+    state=link
+
+

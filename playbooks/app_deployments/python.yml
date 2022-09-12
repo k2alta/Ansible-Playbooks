@@ -1,0 +1,39 @@
+- name: Install Python
+  hosts: Grafana
+  remote_user: root
+  
+
+  tasks:
+
+  - name: install wget
+    ansible.builtin.dnf:
+       name: wget
+         
+
+  - name: wget python
+    shell: wget https://www.python.org/ftp/python/3.9.13/Python-3.9.13.tgz 
+  
+  - name: tar
+    shell: 'tar xzf Python-3.9.13.tgz' 
+      
+       
+  - name: cmd
+    shell: 'cd Python-3.9.13'
+
+  - name: compile
+    shell: ./configure
+  
+    register: shell_result
+
+  - debug:
+           var: shell_result 
+
+  - name: install
+    shell: 'make altinstall'  
+
+    register: shell_result
+
+  - debug:
+           var: shell_result
+
+     

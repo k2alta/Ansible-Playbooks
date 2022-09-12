@@ -1,0 +1,14 @@
+---
+- name: Gen yum update
+  hosts: plex
+  remote_user: root
+
+  tasks:
+  - name: yum update
+    ansible.builtin.yum:
+       name: '*'
+       state: latest
+    register: shell_result
+
+  - debug:
+           var: shell_result 

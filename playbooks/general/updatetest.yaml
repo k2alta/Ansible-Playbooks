@@ -1,0 +1,13 @@
+---
+
+- name: update 
+  hosts: production
+  tasks:
+   - name: Install epel
+     ansible.builtin.yum:
+       name: epel-release
+       state: latest 
+   - name: gen update
+     ansible.builtin.yum:
+       name: '*'
+       state: latest

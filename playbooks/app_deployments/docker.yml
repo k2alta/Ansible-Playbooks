@@ -1,0 +1,44 @@
+- name: install docker
+  hosts: media1
+  remote_user: root
+  
+
+  tasks:
+
+  - name: install yum-utils
+    ansible.builtin.dnf:
+       name: yum-utils
+       
+
+  - name: add docker repo
+    shell: yum-config-manager --add-repo  https://download.docker.com/linux/centos/docker-ce.repo
+  
+  - name: install prereq
+    ansible.builtin.dnf:
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-compose-plugin
+      state: latest
+      allowerasing: yes
+
+    register: shell_result
+
+  - debug:
+           var: shell_result
+       
+   
+  - name: start docker
+    ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+  
+  
+    register: shell_result
+
+  - debug:
+           var: shell_result 
+
+     
