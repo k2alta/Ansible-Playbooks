@@ -1,8 +1,8 @@
 - hosts: vcenter
   var:
-    vcenter_hostname: 'vcenter.ad.mtnlab.org'
+    vcenter_hostname: 'vcenter'
     vcenter_username: 'administrator@vcenter.local'
-    vcenter_username: 'Kerbero$88'
+    vcenter_username: 'password'
      
   tasks:
   - name: Create a snapshot1
